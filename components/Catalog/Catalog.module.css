@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+    gap: 64px;
+
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 48px 64px;
+}
+.results {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+
+.loadMoreButton {
+    min-width: 145px;
+    height: 56px;
+    margin-top: 40px;
+    padding: 16px 32px;
+
+    color: #101828;
+    font-size: 16px;
+    font-weight: 500;
+
+    background-color: transparent;
+    border: 1px solid #dadde1;
+    border-radius: 200px;
+    cursor: pointer;
+}
+
+.loadMoreButton:hover {
+    border-color: #8ca69c;
+}
+
+.loadMoreButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
