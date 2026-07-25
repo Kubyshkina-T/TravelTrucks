@@ -37,6 +37,9 @@ export default function Filters({ onSearch, onClearFilters }: FiltersProps) {
     setFilters(initialFilters);
     onClearFilters();
   }
+  const hasActiveFilters = Object.values(filters).some(
+    (value) => value.trim() !== "",
+  );
 
   return (
     <form className={css.filters} onSubmit={handleSubmit}>
@@ -191,6 +194,7 @@ export default function Filters({ onSearch, onClearFilters }: FiltersProps) {
         className={css.clearButton}
         type="button"
         onClick={handleClearFilters}
+        disabled={!hasActiveFilters}
       >
         <IoMdClose />
         Clear filters

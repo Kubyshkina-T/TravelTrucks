@@ -23,16 +23,19 @@ export default function Catalog() {
   const [filters, setFilters] = useState<CamperFilters>(initialFilters);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [filtersResetKey, setFiltersResetKey] = useState(0);
 
   function handleSearch(newFilters: CamperFilters) {
     setCampers([]);
     setPage(1);
     setFilters(newFilters);
   }
+
   function handleClearFilters() {
     setCampers([]);
     setPage(1);
     setFilters(initialFilters);
+    setFiltersResetKey((prevKey) => prevKey + 1);
   }
 
   function handleLoadMore() {
@@ -72,7 +75,11 @@ export default function Catalog() {
       {isLoading && <Loader />}
 
       <div className={css.container}>
-        <Filters onSearch={handleSearch} onClearFilters={handleClearFilters} />
+        <Filters
+          key={filtersResetKey}
+          onSearch={handleSearch}
+          onClearFilters={handleClearFilters}
+        />
 
         <div className={css.results}>
           <CamperList campers={campers} onClearFilters={handleClearFilters} />

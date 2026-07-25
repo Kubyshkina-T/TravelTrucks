@@ -16,6 +16,11 @@ type GetCampersParams = {
   filters?: CamperFilters;
 };
 
+type CreateBookingPayload = {
+  name: string;
+  email: string;
+};
+
 export async function getCampers({
   page = 1,
   perPage = 14,
@@ -61,14 +66,6 @@ export async function getCamperReviews(
   }
 }
 
-export default api;
-
-
-type CreateBookingPayload = {
-  name: string;
-  email: string;
-};
-
 export async function createBookingRequest(
   camperId: string,
   payload: CreateBookingPayload,
@@ -80,3 +77,5 @@ export async function createBookingRequest(
 
   return response.data;
 }
+
+export default api;

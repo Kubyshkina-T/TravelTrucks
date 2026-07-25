@@ -124,9 +124,13 @@ padding: 16px 60px;
 .searchButton:hover {
     background-color: #6D7B75;
 }
-.clearButton:hover,
-.clearButton:focus{
+.clearButton:not(:disabled):hover,
+.clearButton:not(:disabled):focus{
     border: 1px solid #6D7B75;
+}
+.clearButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 @media (max-width: 900px) {
     .filters {

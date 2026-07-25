@@ -1,8 +1,8 @@
-import css from "./Loader.module.css";
+import css from "@/components/Loader/Loader.module.css";
 
 export default function Loader() {
   return (
-    <div className={css.overlay} role="status" aria-live="polite">
+    <div className={css.overlay}>
       <div className={css.loaderModal}>
         <div className={css.spinner} />
 

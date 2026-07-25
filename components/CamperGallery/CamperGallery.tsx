@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import type { Swiper as SwiperType } from "swiper";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import type { CamperGalleryImage } from "@/app/types/camper";
 import css from "./CamperGallery.module.css";
 
@@ -14,48 +17,74 @@ export default function CamperGallery({
   gallery,
   camperName,
 }: CamperGalleryProps) {
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+
   const images = gallery.filter((image) => image.original || image.thumb);
 
-  const [activeImage, setActiveImage] = useState(
-    images[0]?.original || images[0]?.thumb || "/not-found.jpg",
-  );
+  if (images.length === 0) {
+    return (
+      <div className={css.mainImageWrapper}>
+        <Image
+          className={css.mainImage}
+          src="/not-found.jpg"
+          alt={camperName}
+          fill
+          priority
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={css.gallery}>
-      <Image
-        className={css.mainImage}
-        src={activeImage}
-        alt={camperName}
-        width={800}
-        height={500}
-        priority
-      />
+      <Swiper
+        className={css.mainSwiper}
+        loop={true}
+        spaceBetween={10}
+        navigation={true}
+        thumbs={{
+          swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+        }}
+        modules={[FreeMode, Navigation, Thumbs]}
+      >
+        {images.map((image) => (
+          <SwiperSlide key={image.id}>
+            <div className={css.mainImageWrapper}>
+              <Image
+                className={css.mainImage}
+                src={image.original || image.thumb}
+                alt={camperName}
+                fill
+                priority
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <ul className={css.thumbnails}>
-        {images.map((image) => {
-          const imageSrc = image.original || image.thumb;
-
-          return (
-            <li key={image.id}>
-              <button
-                className={`${css.thumbnailButton} ${
-                  activeImage === imageSrc ? css.activeThumbnail : ""
-                }`}
-                type="button"
-                onClick={() => setActiveImage(imageSrc)}
-              >
-                <Image
-                  className={css.thumbnailImage}
-                  src={image.thumb || image.original}
-                  alt={camperName}
-                  width={120}
-                  height={80}
-                />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <Swiper
+        className={css.thumbsSwiper}
+        onSwiper={setThumbsSwiper}
+        loop={true}
+        spaceBetween={10}
+        slidesPerView={4}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
+      >
+        {images.map((image) => (
+          <SwiperSlide key={image.id}>
+            <div className={css.thumbnailImageWrapper}>
+              <Image
+                className={css.thumbnailImage}
+                src={image.thumb || image.original}
+                alt={camperName}
+                fill
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
