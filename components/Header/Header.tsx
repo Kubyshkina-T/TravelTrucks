@@ -9,7 +9,7 @@ export default function Header() {
         <nav className={css.headerNavigation}>
           <Link className={css.logo} href="/">
             <Image
-              src="/logo.svg"
+              src="/Logo.svg"
               alt="Лого"
               width={136}
               height={16}
