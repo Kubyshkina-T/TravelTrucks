@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import * as Yup from "yup";
 import { createBookingRequest } from "@/lib/api";
@@ -42,7 +42,7 @@ export default function BookingForm({ camperId }: BookingFormProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
     setValues((prevValues) => ({

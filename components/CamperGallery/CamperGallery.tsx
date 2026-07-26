@@ -20,6 +20,7 @@ export default function CamperGallery({
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
 
   const images = gallery.filter((image) => image.original || image.thumb);
+  const canLoop = images.length > 4;
 
   if (images.length === 0) {
     return (
@@ -29,6 +30,7 @@ export default function CamperGallery({
           src="/not-found.jpg"
           alt={camperName}
           fill
+          sizes="(max-width: 1024px) 100vw, 631px"
           priority
         />
       </div>
@@ -39,52 +41,56 @@ export default function CamperGallery({
     <div className={css.gallery}>
       <Swiper
         className={css.mainSwiper}
-        loop={true}
+        loop={canLoop}
         spaceBetween={10}
-        navigation={true}
+        navigation={images.length > 1}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
         modules={[FreeMode, Navigation, Thumbs]}
       >
-        {images.map((image) => (
+        {images.map((image, index) => (
           <SwiperSlide key={image.id}>
             <div className={css.mainImageWrapper}>
               <Image
                 className={css.mainImage}
                 src={image.original || image.thumb}
-                alt={camperName}
+                alt={`${camperName} photo ${index + 1}`}
                 fill
-                priority
+                sizes="(max-width: 1024px) 100vw, 631px"
+                priority={index === 0}
               />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <Swiper
-        className={css.thumbsSwiper}
-        onSwiper={setThumbsSwiper}
-        loop={true}
-        spaceBetween={10}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-      >
-        {images.map((image) => (
-          <SwiperSlide key={image.id}>
-            <div className={css.thumbnailImageWrapper}>
-              <Image
-                className={css.thumbnailImage}
-                src={image.thumb || image.original}
-                alt={camperName}
-                fill
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {images.length > 1 && (
+        <Swiper
+          className={css.thumbsSwiper}
+          onSwiper={setThumbsSwiper}
+          loop={canLoop}
+          spaceBetween={10}
+          slidesPerView={Math.min(4, images.length)}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+        >
+          {images.map((image, index) => (
+            <SwiperSlide key={image.id}>
+              <div className={css.thumbnailImageWrapper}>
+                <Image
+                  className={css.thumbnailImage}
+                  src={image.thumb || image.original}
+                  alt={`${camperName} thumbnail ${index + 1}`}
+                  fill
+                  sizes="120px"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </div>
   );
 }
