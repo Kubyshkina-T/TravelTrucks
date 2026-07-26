@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
-import "./globals.css";
-import Header from "../components/Header/Header";
 import { Toaster } from "react-hot-toast";
+import Header from "../components/Header/Header";
+import ReactQueryProvider from "@/components/ReactQueryProvider/ReactQueryProvider";
+
+import "./globals.css";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
@@ -19,9 +21,11 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
   variable: "--font-manrope",
 });
+
 export const metadata: Metadata = {
   title: "TravelTrucks",
-  description: "Camper rental service",
+  description:
+    "TravelTrucks is a camper rental service where users can browse campers, filter results, view details, read reviews, and send booking requests.",
 };
 
 export default function RootLayout({
@@ -32,10 +36,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${manrope.variable}`}>
-        {" "}
-        <Header />
-        {children}
-        <Toaster position="top-right" />
+        <ReactQueryProvider>
+          <Header />
+          {children}
+          <Toaster position="top-right" />
+        </ReactQueryProvider>
       </body>
     </html>
   );

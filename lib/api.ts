@@ -23,7 +23,7 @@ type CreateBookingPayload = {
 
 export async function getCampers({
   page = 1,
-  perPage = 14,
+  perPage = 4,
   filters,
 }: GetCampersParams): Promise<CampersResponse> {
   const response = await api.get<CampersResponse>("/campers", {

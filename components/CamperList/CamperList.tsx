@@ -137,7 +137,12 @@ export default function CamperList({
               </li>
             </ul>
 
-            <Link href={`/catalog/${camper.id}`} className={css.showMoreButton}>
+            <Link
+              href={`/catalog/${camper.id}`}
+              className={css.showMoreButton}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Show more
             </Link>
           </div>

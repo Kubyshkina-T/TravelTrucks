@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getCampers } from "@/lib/api";
 import CamperList from "../CamperList/CamperList";
 import Filters from "@/components/Filters/Filters";
 import Loader from "@/components/Loader/Loader";
-import type { Camper, CamperFilters } from "@/app/types/camper";
+import type { CamperFilters } from "@/app/types/camper";
 import css from "./Catalog.module.css";
 
 const initialFilters: CamperFilters = {
@@ -18,61 +19,48 @@ const initialFilters: CamperFilters = {
 const PER_PAGE = 4;
 
 export default function Catalog() {
-  const [campers, setCampers] = useState<Camper[]>([]);
-  const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState<CamperFilters>(initialFilters);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [filtersResetKey, setFiltersResetKey] = useState(0);
 
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useInfiniteQuery({
+    queryKey: ["campers", filters],
+    queryFn: ({ pageParam }) =>
+      getCampers({
+        page: Number(pageParam),
+        perPage: PER_PAGE,
+        filters,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.totalPages) {
+        return lastPage.page + 1;
+      }
+
+      return undefined;
+    },
+  });
+
+  const campers = data?.pages.flatMap((page) => page.campers) ?? [];
+
   function handleSearch(newFilters: CamperFilters) {
-    setCampers([]);
-    setPage(1);
     setFilters(newFilters);
   }
 
   function handleClearFilters() {
-    setCampers([]);
-    setPage(1);
     setFilters(initialFilters);
     setFiltersResetKey((prevKey) => prevKey + 1);
   }
 
-  function handleLoadMore() {
-    setPage((previousPage) => previousPage + 1);
-  }
-
-  useEffect(() => {
-    async function loadCampers() {
-      try {
-        setIsLoading(true);
-
-        const data = await getCampers({
-          page,
-          perPage: PER_PAGE,
-          filters,
-        });
-
-        setCampers((previousCampers) =>
-          page === 1 ? data.campers : [...previousCampers, ...data.campers],
-        );
-
-        setTotal(data.total);
-      } catch (error) {
-        console.error("Failed to load campers:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadCampers();
-  }, [filters, page]);
-
-  const hasMoreCampers = campers.length > 0 && campers.length < total;
-
   return (
     <>
-      {isLoading && <Loader />}
+      {isPending && <Loader />}
 
       <div className={css.container}>
         <Filters
@@ -82,16 +70,24 @@ export default function Catalog() {
         />
 
         <div className={css.results}>
-          <CamperList campers={campers} onClearFilters={handleClearFilters} />
+          {error && (
+            <p className={css.errorText}>
+              Something went wrong. Please try again.
+            </p>
+          )}
 
-          {hasMoreCampers && campers.length > 0 && (
+          {!error && !isPending && (
+            <CamperList campers={campers} onClearFilters={handleClearFilters} />
+          )}
+
+          {!error && !isPending && hasNextPage && (
             <button
               className={css.loadMoreButton}
               type="button"
-              onClick={handleLoadMore}
-              disabled={isLoading}
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
             >
-              Load more
+              {isFetchingNextPage ? "Loading..." : "Load more"}
             </button>
           )}
         </div>
