@@ -37,6 +37,7 @@ export default function Filters({ onSearch, onClearFilters }: FiltersProps) {
     setFilters(initialFilters);
     onClearFilters();
   }
+
   const hasActiveFilters = Object.values(filters).some(
     (value) => value.trim() !== "",
   );
@@ -78,8 +79,8 @@ export default function Filters({ onSearch, onClearFilters }: FiltersProps) {
           <input
             type="radio"
             name="form"
-            value="panel_truck"
-            checked={filters.form === "panel_truck"}
+            value="panel_van"
+            checked={filters.form === "panel_van"}
             onChange={(event) => updateFilter("form", event.target.value)}
           />
           <span className={css.camperForm}>Panel Van</span>
@@ -89,8 +90,8 @@ export default function Filters({ onSearch, onClearFilters }: FiltersProps) {
           <input
             type="radio"
             name="form"
-            value="fully_integrated"
-            checked={filters.form === "fully_integrated"}
+            value="integrated"
+            checked={filters.form === "integrated"}
             onChange={(event) => updateFilter("form", event.target.value)}
           />
           <span className={css.camperForm}>Integrated</span>
