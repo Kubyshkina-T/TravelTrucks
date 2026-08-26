@@ -1,7 +1,7 @@
 export type CamperForm =
   | "alcove"
-  | "panel_truck"
-  | "fully_integrated"
+  | "panel_van"
+  | "integrated"
   | "semi_integrated";
 
 export type Transmission = "automatic" | "manual";
@@ -66,6 +66,7 @@ export interface CamperFilters {
   engine: Engine | "";
   transmission: Transmission | "";
 }
+
 export interface CamperReview {
   id: string;
   camperId: string;
