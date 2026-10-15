@@ -1,15 +1,19 @@
 .gallery {
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .mainSwiper {
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .mainImageWrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 631 / 588;
+    aspect-ratio: 335 / 260;
     border-radius: 20px;
     overflow: hidden;
     background-color: #f7f7f7;
@@ -22,12 +26,14 @@
 .thumbsSwiper {
     width: 100%;
     margin-top: 24px;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .thumbnailImageWrapper {
     position: relative;
     width: 100%;
-    height: 96px;
+    height: 72px;
     border: 2px solid transparent;
     border-radius: 12px;
     overflow: hidden;
@@ -44,22 +50,43 @@
     border-color: #829b91;
 }
 
-:global(.swiper-button-prev),
+:global(.swiper-button-prev) {
+    color: #ffffff;
+}
+
 :global(.swiper-button-next) {
     color: #ffffff;
 }
 
-:global(.swiper-button-prev::after),
+:global(.swiper-button-prev::after) {
+    font-size: 24px;
+}
+
 :global(.swiper-button-next::after) {
     font-size: 24px;
 }
 
-@media screen and (max-width: 767px) {
+@media (min-width: 768px) {
     .mainImageWrapper {
-        aspect-ratio: 335 / 260;
+        aspect-ratio: 631 / 588;
     }
 
     .thumbnailImageWrapper {
-        height: 72px;
+        height: 96px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .mainImageWrapper {
+        aspect-ratio: 631 / 588;
+    }
+
+    .thumbnailImageWrapper {
+        height: 96px;
+    }
+
+    .gallery, .mainSwiper, .thumbsSwiper {
+        min-width: auto;
+        max-width: none;
     }
 }
