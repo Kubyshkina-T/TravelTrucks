@@ -14,9 +14,9 @@
     flex-direction: column;
     align-items: center;
     width: 543px;
-    height: 296px;
+    height: auto;
     max-width: 100%;
-    padding: 48px 96px;
+    padding: 32px 16px;
     text-align: center;
     background-color: #ffffff;
     border-radius: 16px;
@@ -52,5 +52,18 @@
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media (min-width: 768px) {
+    .loaderModal {
+        padding: 48px 64px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .loaderModal {
+        height: 296px;
+        padding: 48px 96px;
     }
 }

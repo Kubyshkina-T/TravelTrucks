@@ -1,17 +1,20 @@
-.header{
+.header {
     background-color: #F7F7F7;
 }
+
 .container {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 28px 64px;
+    padding: 16px;
 }
 
 .headerNavigation {
     display: flex;
     align-items: center;
     width: 100%;
+    position: relative;
+    justify-content: space-between;
 }
 
 .logo {
@@ -21,25 +24,115 @@
 }
 
 .headerList {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-grow: 1;
+    margin: 0;
+    padding: 12px;
+    list-style: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: #f7f7f7;
+    border-radius: 12px;
+    flex-direction: column;
+}
+
+.headerItems {
+    color: #6D7B75;
+    transition: color 250ms ease-in-out;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.headerItems:hover {
+    color: #829B91;
+}
+
+.headerItems:focus {
+    color: #829B91;
+}
+
+.headerListOpen {
+    display: flex;
+}
+
+.headerItems a {
+    display: block;
+    padding: 12px 20px;
+}
+
+.menuButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #dadde1;
+    border-radius: 8px;
+    background: transparent;
+    color: #6d7b75;
+    cursor: pointer;
+}
 
-    flex-grow: 1;
-    margin: 0 136px 0 0;
-    padding: 0;
-    list-style: none;
+.menuButton:focus-visible {
+    outline: 2px solid #6d7b75;
+    outline-offset: 3px;
 }
-.headerItems{
-    color: #6D7B75;
-    transition:color 250ms ease-in-out;
-    font-size: 16px;
-    font-weight: 500;
-line-height: 1.5;
-text-align: center;
+
+@media (min-width: 768px) {
+    .container {
+        padding: 28px 32px;
+    }
+
+    .headerNavigation {
+        justify-content: normal;
+    }
+
+    .headerList {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        margin: 0 136px 0 0;
+        padding: 0;
+        gap: 32px;
+        border-radius: 0;
+    }
+
+    .headerItems a {
+        display: inline;
+        padding: 0;
+    }
+
+    .menuButton {
+        display: none;
+    }
 }
-.headerItems:hover,
-.headerItems:focus{
-    color:#829B91;
+
+@media (min-width: 1440px) {
+    .container {
+        padding: 28px 64px;
+    }
+
+    .headerList {
+        display: flex;
+        gap: 32px;
+        margin: 0 136px 0 0;
+        padding: 0;
+    }
+
+    .headerNavigation {
+        position: static;
+        justify-content: normal;
+    }
+
+    .headerList {
+        background: transparent;
+    }
 }

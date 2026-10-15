@@ -1,30 +1,29 @@
 .container {
     display: flex;
     align-items: flex-start;
-    gap: 64px;
-
+    gap: 32px;
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 48px 64px;
+    padding: 24px 16px;
+    flex-direction: column;
 }
+
 .results {
     flex: 1;
     min-width: 0;
     text-align: center;
+    width: 100%;
 }
-
 
 .loadMoreButton {
     min-width: 145px;
     height: 56px;
     margin-top: 40px;
     padding: 16px 32px;
-
     color: #101828;
     font-size: 16px;
     font-weight: 500;
-
     background-color: transparent;
     border: 1px solid #dadde1;
     border-radius: 200px;
@@ -38,4 +37,36 @@
 .loadMoreButton:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 32px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        flex-direction: row;
+        gap: 32px;
+    }
+
+    .results {
+        width: auto;
+    }
+}
+
+@media (min-width: 1440px) {
+    .container {
+        gap: 64px;
+        padding: 48px 64px;
+    }
+
+    .container {
+        flex-direction: row;
+    }
+
+    .results {
+        width: auto;
+    }
 }
